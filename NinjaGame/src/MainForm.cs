@@ -31,8 +31,8 @@ namespace NinjaGame
         {
             Graphics graphics = e.Graphics;
 
-            graphics.DrawRectangle(Pens.DarkBlue, player.Position.X, player.Position.Y, PLAYER_SIZE, PLAYER_SIZE);
-            graphics.FillRectangle(Brushes.DarkBlue, player.Position.X, player.Position.Y, PLAYER_SIZE, PLAYER_SIZE);
+            graphics.DrawRectangle(Pens.DarkBlue, player.X, player.Y, PLAYER_SIZE, PLAYER_SIZE);
+            graphics.FillRectangle(Brushes.DarkBlue, player.X, player.Y, PLAYER_SIZE, PLAYER_SIZE);
         }
 
         private void physicsTimer_Tick(object sender, EventArgs e)
