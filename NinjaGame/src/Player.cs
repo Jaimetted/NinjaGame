@@ -8,17 +8,19 @@ namespace NinjaGame
 {
     class Player
     {
-        public int x { get; set; }
-        public int y { get; set; }
+        public int X { get; set; }
+        public int Y { get; set; }
 
         public Player()
         {
-            x=y=0;
+            X = 0;
+            Y = 0;
         }
 
-        public void Move(int moveX,int moveY){
-            x += moveX;
-            y += moveY;
+        public void Move(int moveX,int moveY)
+        {
+            X += moveX;
+            Y += moveY;
         }
         
     }
