@@ -40,7 +40,7 @@ namespace NinjaGame
             graphics.DrawRectangle(Pens.DarkBlue, player.X, player.Y, PLAYER_SIZE, PLAYER_SIZE);
             graphics.FillRectangle(Brushes.DarkBlue, player.X, player.Y, PLAYER_SIZE, PLAYER_SIZE);
 
-            foreach (Project shot : projectiles)
+            foreach (Projectile shot in projectiles)
             {
                 graphics.DrawEllipse(Pens.LightBlue, shot.X, shot.Y, PROJECTILE_SIZE, PROJECTILE_SIZE);
                 graphics.FillEllipse(Brushes.LightBlue, shot.X, shot.Y, PROJECTILE_SIZE, PROJECTILE_SIZE);
@@ -68,7 +68,7 @@ namespace NinjaGame
 
         private bool IsWithinBounds(Projectile shot)
         {
-            return (shot.X < -50f || shot.Y < -50f || shot.X > 550f || shot.Y > 550f);
+            return (shot.X > -50f && shot.Y > -50f && shot.X < 550f && shot.Y < 550f);
         }
 
         private void MainForm_KeyDown(object sender, KeyEventArgs e)
