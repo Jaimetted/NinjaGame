@@ -3,19 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Drawing;
 
-namespace NinjaGame.src
+namespace NinjaGame
 {
     class Player
     {
-        public Point Position { get; set; }
-
+        public int x { get; set; }
+        public int y { get; set; }
 
         public Player()
         {
-            Position = new Point(0,0);
+            x=y=0;
         }
 
+        public void Move(int moveX,int moveY){
+            x += moveX;
+            y += moveY;
+        }
+        
     }
 }
