@@ -13,7 +13,7 @@ namespace NinjaGame
     public partial class MainForm : Form
     {
         // TODO: Make a GameState class instead of holding onto state inside this Form
-        private const int PLAYER_SPEED = 5;
+        private const int PLAYER_SPEED = 16;
         private const int PLAYER_SIZE = 32;
         private Player player;
         private bool canMove;
@@ -38,6 +38,7 @@ namespace NinjaGame
         private void physicsTimer_Tick(object sender, EventArgs e)
         {
             canMove = true;
+            this.Refresh(); // Redraw graphics
         }
 
         private void MainForm_KeyDown(object sender, KeyEventArgs e)
@@ -47,26 +48,26 @@ namespace NinjaGame
                 if (e.KeyCode == Keys.Up)
                 {
                     player.Move(0, -PLAYER_SPEED);
-                    canMove = false;
                     e.Handled = true;
+                    canMove = false;
                 }
                 if (e.KeyCode == Keys.Down)
                 {
                     player.Move(0, PLAYER_SPEED);
-                    canMove = false;
                     e.Handled = true;
+                    canMove = false;
                 }
                 if (e.KeyCode == Keys.Left)
                 {
                     player.Move(-PLAYER_SPEED, 0);
-                    canMove = false;
                     e.Handled = true;
+                    canMove = false;
                 }
                 if (e.KeyCode == Keys.Right)
                 {
                     player.Move(PLAYER_SPEED, 0);
-                    canMove = false;
                     e.Handled = true;
+                    canMove = false;
                 }
             }
         }

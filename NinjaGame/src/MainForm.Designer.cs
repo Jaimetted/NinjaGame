@@ -34,6 +34,7 @@
             // 
             // physicsTimer
             // 
+            this.physicsTimer.Enabled = true;
             this.physicsTimer.Interval = 50;
             this.physicsTimer.Tick += new System.EventHandler(this.physicsTimer_Tick);
             // 
