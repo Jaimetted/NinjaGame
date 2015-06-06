@@ -116,7 +116,8 @@ namespace NinjaGame
                 for (attempts = 0; attempts < MAX_SPAWN_ATTEMPTS; attempts++)
                 {
                     x = (float)((this.Width - ENEMY_SIZE) * random.NextDouble());
-                    y = (float)((this.Height - ENEMY_SIZE) * random.NextDouble());
+                    // Enemy size is doubled here as a hax to compensate for the window's title bar
+                    y = (float)((this.Height - 2 * ENEMY_SIZE) * random.NextDouble());
 
                     // Check that the enemy doesn't spawn too close to the player
                     if (Math.Abs(player.X - x) >= MIN_COORD_DIFFERENCE && Math.Abs(player.Y - y) >= MIN_COORD_DIFFERENCE)
