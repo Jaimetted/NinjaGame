@@ -82,8 +82,23 @@ namespace NinjaGame
             {
                 Projectile shot = projectiles[index];
                 shot.Move();
-                if (!IsWithinBounds(shot))
+
+                if (IsWithinBounds(shot))
+                {
+                    for (int i = 0; i < enemies.Count; i++)
+                    {
+                        if (CheckCollision(enemies[i], shot))
+                        {
+                            projectiles.RemoveAt(index);
+                            enemies.RemoveAt(i);
+                            break;
+                        }
+                    }
+                }
+                else
+                {
                     projectiles.RemoveAt(index);
+                }
             }
         }
 
@@ -95,7 +110,7 @@ namespace NinjaGame
 
             if (spawnDelay > 0)
                 spawnDelay--;
-            
+
             if (spawnDelay == 0 && enemies.Count < MAX_ENEMY_COUNT)
             {
                 for (attempts = 0; attempts < MAX_SPAWN_ATTEMPTS; attempts++)
@@ -112,6 +127,16 @@ namespace NinjaGame
                     }
                 }
             }
+        }
+
+        private bool CheckCollision(Enemy enemy, Projectile shot)
+        {
+            float eXmin = enemy.X, eYmin = enemy.Y;
+            float eXmax = eXmin + ENEMY_SIZE, eYmax = eYmin + ENEMY_SIZE;
+            float pXmin = shot.X, pYmin = shot.Y;
+            float pXmax = pXmin + PROJECTILE_SIZE, pYmax = pYmin + PROJECTILE_SIZE;
+
+            return (eXmin <= pXmax && eXmax >= pXmin && eYmin <= pYmax && eYmax >= pYmin);
         }
 
         private bool IsWithinBounds(Projectile shot)
