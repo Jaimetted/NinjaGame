@@ -23,6 +23,7 @@ namespace NinjaGame
         private const int MAX_ENEMY_COUNT = 3;
         private const int MAX_SPAWN_DELAY = 70;
         private const int PLAYER_MOVE_DELAY = 5;
+        private const int ENEMY_MOVE_DELAY = 4;
         private const int MAX_SPAWN_ATTEMPTS = 10;
 
         // TODO: Make a GameState class instead of holding onto state inside this Form
@@ -132,7 +133,7 @@ namespace NinjaGame
                     enemy.DirectionDelay--;
 
                 }
-                    moveDelay = PLAYER_MOVE_DELAY;
+                    moveDelay = ENEMY_MOVE_DELAY;
                 
             }
         }
