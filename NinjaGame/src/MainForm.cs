@@ -75,9 +75,36 @@ namespace NinjaGame
             {
                 Projectile shot = projectiles[index];
                 shot.Move();
-                if (!IsWithinBounds(shot))
-                    projectiles.RemoveAt(index);
+
+                for (int i = 0; i < enemies.Count; i++)
+                {
+                    if (IsWithinBounds(shot))
+                    {
+                        if (CheckCollision(enemies[i], shot))
+                        {
+                            projectiles.RemoveAt(index);
+                            enemies.RemoveAt(i);
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        projectiles.RemoveAt(index);
+                    }
+                }
             }
+        }
+
+
+        private bool CheckCollision(Enemy enemy, Projectile shot)
+        {
+            float eXmin = enemy.X, eYmin = enemy.Y;
+            float eXmax = eXmin + ENEMY_SIZE, eYmax = eYmin + ENEMY_SIZE;
+            float pXmin = shot.X, pYmin = shot.Y;
+            float pXmax = pXmin + PROJECTILE_SIZE, pYmax = pYmin + PROJECTILE_SIZE;
+
+            return (eXmin <= pXmax && eXmax >= pXmin && eYmin <= pYmax && eYmax >= pYmin);
+            
         }
 
         private bool IsWithinBounds(Projectile shot)
