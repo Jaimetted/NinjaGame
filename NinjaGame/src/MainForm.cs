@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 namespace NinjaGame
 {
@@ -15,9 +15,11 @@ namespace NinjaGame
         // TODO: Make a GameState class instead of holding onto state inside this Form
         private const float PLAYER_SPEED = 16;
         private const float PLAYER_SIZE = 32;
+        private const float ENEMY_SIZE = PLAYER_SIZE;
         private const float PROJECTILE_SPEED = 32;
         private const float PROJECTILE_SIZE = 10;
         private Player player;
+        private List<Enemy> enemies;
         private List<Projectile> projectiles;
         private bool canMove;
         private bool canShoot;
@@ -30,20 +32,32 @@ namespace NinjaGame
             canMove = true;
             canShoot = true;
             player = new Player();
+            enemies = new List<Enemy>();
             projectiles = new List<Projectile>();
+
+            // Set up dummy enemy
+            enemies.Add(new Enemy(300, 300));
         }
 
         private void MainForm_Paint(object sender, PaintEventArgs e)
         {
             Graphics graphics = e.Graphics;
-
+            // Draw player
             graphics.DrawRectangle(Pens.DarkBlue, player.X, player.Y, PLAYER_SIZE, PLAYER_SIZE);
             graphics.FillRectangle(Brushes.DarkBlue, player.X, player.Y, PLAYER_SIZE, PLAYER_SIZE);
-
+            
+            // Draw projectiles
             foreach (Projectile shot in projectiles)
             {
                 graphics.DrawEllipse(Pens.LightBlue, shot.X, shot.Y, PROJECTILE_SIZE, PROJECTILE_SIZE);
                 graphics.FillEllipse(Brushes.LightBlue, shot.X, shot.Y, PROJECTILE_SIZE, PROJECTILE_SIZE);
+            }
+
+            // Draw enemies
+            foreach (Enemy enemy in enemies)
+            {
+                graphics.DrawRectangle(Pens.DarkRed, enemy.X, enemy.Y, ENEMY_SIZE, ENEMY_SIZE);
+                graphics.FillRectangle(Brushes.DarkRed, enemy.X, enemy.Y, ENEMY_SIZE, ENEMY_SIZE);
             }
         }
 
