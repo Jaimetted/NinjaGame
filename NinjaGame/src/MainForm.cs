@@ -107,7 +107,7 @@ namespace NinjaGame
             if (canShoot && e.KeyCode == Keys.Space)
             {
                 // TODO: Haxed up the starting point for the projectile -- Fix this in the future
-                projectiles.Add(new Projectile(player.X + PLAYER_SIZE / 2, player.Y + PLAYER_SIZE / 2, player.Direction.Multiply(PROJECTILE_SPEED)));
+                projectiles.Add(new Projectile(player.X + PLAYER_SIZE / 2 - PROJECTILE_SIZE / 2, player.Y + PLAYER_SIZE / 2 - PROJECTILE_SIZE / 2, player.Direction.Multiply(PROJECTILE_SPEED)));
                 e.Handled = true;
                 canShoot = false;
             }
