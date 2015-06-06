@@ -110,6 +110,21 @@ namespace NinjaGame
                     projectiles.RemoveAt(index);
                 }
             }
+            foreach (Enemy enemy in enemies)
+            {
+                int direction = random.Next(4);
+                if(direction==0)
+                    enemy.Move(0, -PLAYER_SPEED);
+                else if(direction==1)
+                    enemy.Move(0, PLAYER_SPEED);
+                else if(direction==2)
+                    enemy.Move(-PLAYER_SPEED, 0);
+                else if(direction==3)
+                    enemy.Move(PLAYER_SPEED,0);
+
+
+
+            }
         }
 
         private void TrySpawnEnemy()
