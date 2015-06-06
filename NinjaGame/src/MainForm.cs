@@ -67,7 +67,7 @@ namespace NinjaGame
             }
         }
 
-        private void physicsTimer_Tick(object sender, EventArgs e)
+        private void updateTimer_Tick(object sender, EventArgs e)
         {
             UpdatePhysics();
             TrySpawnEnemy();

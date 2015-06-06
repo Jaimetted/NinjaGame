@@ -29,14 +29,14 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.physicsTimer = new System.Windows.Forms.Timer(this.components);
+            this.updateTimer = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // physicsTimer
             // 
-            this.physicsTimer.Enabled = true;
-            this.physicsTimer.Interval = 50;
-            this.physicsTimer.Tick += new System.EventHandler(this.physicsTimer_Tick);
+            this.updateTimer.Enabled = true;
+            this.updateTimer.Interval = 50;
+            this.updateTimer.Tick += new System.EventHandler(this.updateTimer_Tick);
             // 
             // MainForm
             // 
@@ -57,7 +57,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Timer physicsTimer;
+        private System.Windows.Forms.Timer updateTimer;
     }
 }
 
