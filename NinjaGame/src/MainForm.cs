@@ -16,7 +16,7 @@ namespace NinjaGame
         private const float PLAYER_SIZE = 32;
         private const float ENEMY_SIZE = PLAYER_SIZE;
         private const float PROJECTILE_SPEED = 32;
-        private const float PROJECTILE_SIZE = 10;
+        private const float PROJECTILE_SIZE = 18;
         private const float MIN_COORD_DIFFERENCE = 200;
         private const int MAX_ENEMY_COUNT = 3;
         private const int MAX_SPAWN_DELAY = 70;
@@ -30,8 +30,9 @@ namespace NinjaGame
         private bool canShoot;
         private Random random;
         private int spawnDelay;
-        private Bitmap playerImage;
-        private Bitmap enemyImage;
+        private Image playerImage;
+        private Image enemyImage;
+        private Image shurikenImage;
 
         public MainForm()
         {
@@ -50,6 +51,7 @@ namespace NinjaGame
             Bitmap ninjaSprites = new Bitmap(@"./resources/images/ninja_sprites.png");
             playerImage = ninjaSprites.Clone(new Rectangle(224, 0, 32, 32), ninjaSprites.PixelFormat);
             enemyImage = ninjaSprites.Clone(new Rectangle(128, 0, 32, 32), ninjaSprites.PixelFormat);
+            shurikenImage = Image.FromFile(@"./resources/images/shuriken.png");
         }
 
         private void MainForm_Paint(object sender, PaintEventArgs e)
@@ -59,8 +61,9 @@ namespace NinjaGame
             // Draw projectiles
             foreach (Projectile shot in projectiles)
             {
-                graphics.DrawEllipse(Pens.LightBlue, shot.X, shot.Y, PROJECTILE_SIZE, PROJECTILE_SIZE);
-                graphics.FillEllipse(Brushes.LightBlue, shot.X, shot.Y, PROJECTILE_SIZE, PROJECTILE_SIZE);
+                graphics.DrawImage(shurikenImage, shot.X, shot.Y);
+                // graphics.DrawEllipse(Pens.LightBlue, shot.X, shot.Y, PROJECTILE_SIZE, PROJECTILE_SIZE);
+                // graphics.FillEllipse(Brushes.LightBlue, shot.X, shot.Y, PROJECTILE_SIZE, PROJECTILE_SIZE);
             }
 
             // Draw enemies
