@@ -7,12 +7,14 @@ namespace NinjaGame
 {
     public partial class MainForm : Form
     {
-        private readonly Vector UP_DIRECTION = new Vector(0, -1);
-        private readonly Vector DOWN_DIRECTION = new Vector(0, 1);
-        private readonly Vector LEFT_DIRECTION = new Vector(-1, 0);
-        private readonly Vector RIGHT_DIRECTION = new Vector(1, 0);
+        private static readonly Vector UP_DIRECTION = new Vector(0, -1);
+        private static readonly Vector DOWN_DIRECTION = new Vector(0, 1);
+        private static readonly Vector LEFT_DIRECTION = new Vector(-1, 0);
+        private static readonly Vector RIGHT_DIRECTION = new Vector(1, 0);
+        private static readonly Vector[] DIRECTIONS = new Vector[] { UP_DIRECTION, DOWN_DIRECTION, LEFT_DIRECTION, RIGHT_DIRECTION };
 
         private const float PLAYER_SPEED = 16;
+        private const float ENEMY_SPEED = 18;
         private const float PLAYER_SIZE = 32;
         private const float ENEMY_SIZE = PLAYER_SIZE;
         private const float PROJECTILE_SPEED = 32;
@@ -20,16 +22,19 @@ namespace NinjaGame
         private const float MIN_COORD_DIFFERENCE = 200;
         private const int MAX_ENEMY_COUNT = 3;
         private const int MAX_SPAWN_DELAY = 70;
+        private const int PLAYER_MOVE_DELAY = 5;
+        private const int ENEMY_MOVE_DELAY = 4;
         private const int MAX_SPAWN_ATTEMPTS = 10;
 
         // TODO: Make a GameState class instead of holding onto state inside this Form
+        private Random random;
         private Player player;
         private List<Enemy> enemies;
         private List<Projectile> projectiles;
         private bool canMove;
         private bool canShoot;
-        private Random random;
         private int spawnDelay;
+        private int moveDelay;
         private Image playerImage;
         private Image enemyImage;
         private Image shurikenImage;
@@ -43,6 +48,7 @@ namespace NinjaGame
             canMove = true;
             canShoot = true;
             spawnDelay = MAX_SPAWN_DELAY;
+            moveDelay = PLAYER_MOVE_DELAY;
             player = new Player();
             enemies = new List<Enemy>();
             projectiles = new List<Projectile>();
@@ -113,20 +119,25 @@ namespace NinjaGame
                     projectiles.RemoveAt(index);
                 }
             }
-            foreach (Enemy enemy in enemies)
+            moveDelay--;
+            if (moveDelay == 0)
             {
-                int direction = random.Next(4);
-                if(direction==0)
-                    enemy.Move(0, -PLAYER_SPEED);
-                else if(direction==1)
-                    enemy.Move(0, PLAYER_SPEED);
-                else if(direction==2)
-                    enemy.Move(-PLAYER_SPEED, 0);
-                else if(direction==3)
-                    enemy.Move(PLAYER_SPEED,0);
 
+                foreach (Enemy enemy in enemies)
+                {
 
+                    if (enemy.DirectionDelay == 0)
+                    {
+                        enemy.DirectionDelay = random.Next(3, 5);
+                        enemy.Direction = random.Next(4);
+                    }
 
+                    enemy.Move(DIRECTIONS[enemy.Direction].X*ENEMY_SPEED, DIRECTIONS[enemy.Direction].Y*ENEMY_SPEED);
+                    enemy.DirectionDelay--;
+
+                }
+                    moveDelay = ENEMY_MOVE_DELAY;
+                
             }
         }
 
