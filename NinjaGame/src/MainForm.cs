@@ -30,6 +30,8 @@ namespace NinjaGame
         private bool canShoot;
         private Random random;
         private int spawnDelay;
+        private Bitmap playerImage;
+        private Bitmap enemyImage;
 
         public MainForm()
         {
@@ -43,14 +45,16 @@ namespace NinjaGame
             player = new Player();
             enemies = new List<Enemy>();
             projectiles = new List<Projectile>();
+
+            // Load sprite sheet
+            Bitmap ninjaSprites = new Bitmap(@"./resources/images/ninja_sprites.png");
+            playerImage = ninjaSprites.Clone(new Rectangle(224, 0, 32, 32), ninjaSprites.PixelFormat);
+            enemyImage = ninjaSprites.Clone(new Rectangle(128, 0, 32, 32), ninjaSprites.PixelFormat);
         }
 
         private void MainForm_Paint(object sender, PaintEventArgs e)
         {
             Graphics graphics = e.Graphics;
-            // Draw player
-            graphics.DrawRectangle(Pens.DarkBlue, player.X, player.Y, PLAYER_SIZE, PLAYER_SIZE);
-            graphics.FillRectangle(Brushes.DarkBlue, player.X, player.Y, PLAYER_SIZE, PLAYER_SIZE);
             
             // Draw projectiles
             foreach (Projectile shot in projectiles)
@@ -62,9 +66,15 @@ namespace NinjaGame
             // Draw enemies
             foreach (Enemy enemy in enemies)
             {
-                graphics.DrawRectangle(Pens.DarkRed, enemy.X, enemy.Y, ENEMY_SIZE, ENEMY_SIZE);
-                graphics.FillRectangle(Brushes.DarkRed, enemy.X, enemy.Y, ENEMY_SIZE, ENEMY_SIZE);
+                graphics.DrawImage(enemyImage, enemy.X, enemy.Y);
+                // graphics.DrawRectangle(Pens.DarkRed, enemy.X, enemy.Y, ENEMY_SIZE, ENEMY_SIZE);
+                // graphics.FillRectangle(Brushes.DarkRed, enemy.X, enemy.Y, ENEMY_SIZE, ENEMY_SIZE);
             }
+
+            // Draw player
+            graphics.DrawImage(playerImage, player.X, player.Y);
+            // graphics.DrawRectangle(Pens.DarkBlue, player.X, player.Y, PLAYER_SIZE, PLAYER_SIZE);
+            // graphics.FillRectangle(Brushes.DarkBlue, player.X, player.Y, PLAYER_SIZE, PLAYER_SIZE);
         }
 
         private void updateTimer_Tick(object sender, EventArgs e)
@@ -115,9 +125,9 @@ namespace NinjaGame
             {
                 for (attempts = 0; attempts < MAX_SPAWN_ATTEMPTS; attempts++)
                 {
-                    x = (float)((this.Width - ENEMY_SIZE) * random.NextDouble());
-                    // Enemy size is doubled here as a hax to compensate for the window's title bar
-                    y = (float)((this.Height - 2 * ENEMY_SIZE) * random.NextDouble());
+                    // Enemy size is multiplied here as a hax to compensate for weird window bounds
+                    x = (float)((this.Width - 2 * ENEMY_SIZE) * random.NextDouble());
+                    y = (float)((this.Height - 3 * ENEMY_SIZE) * random.NextDouble());
 
                     // Check that the enemy doesn't spawn too close to the player
                     if (Math.Abs(player.X - x) >= MIN_COORD_DIFFERENCE && Math.Abs(player.Y - y) >= MIN_COORD_DIFFERENCE)
