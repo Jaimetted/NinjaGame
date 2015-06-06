@@ -12,31 +12,37 @@ namespace NinjaGame
         private readonly Vector LEFT_DIRECTION = new Vector(-1, 0);
         private readonly Vector RIGHT_DIRECTION = new Vector(1, 0);
 
-        // TODO: Make a GameState class instead of holding onto state inside this Form
         private const float PLAYER_SPEED = 16;
         private const float PLAYER_SIZE = 32;
         private const float ENEMY_SIZE = PLAYER_SIZE;
         private const float PROJECTILE_SPEED = 32;
         private const float PROJECTILE_SIZE = 10;
+        private const float MIN_COORD_DIFFERENCE = 200;
+        private const int MAX_ENEMY_COUNT = 3;
+        private const int MAX_SPAWN_DELAY = 70;
+        private const int MAX_SPAWN_ATTEMPTS = 10;
+
+        // TODO: Make a GameState class instead of holding onto state inside this Form
         private Player player;
         private List<Enemy> enemies;
         private List<Projectile> projectiles;
         private bool canMove;
         private bool canShoot;
+        private Random random;
+        private int spawnDelay;
 
         public MainForm()
         {
             InitializeComponent();
 
             // Initialize game data
+            random = new Random();
             canMove = true;
             canShoot = true;
+            spawnDelay = MAX_SPAWN_DELAY;
             player = new Player();
             enemies = new List<Enemy>();
             projectiles = new List<Projectile>();
-
-            // Set up dummy enemy
-            enemies.Add(new Enemy(300, 300));
         }
 
         private void MainForm_Paint(object sender, PaintEventArgs e)
@@ -64,6 +70,7 @@ namespace NinjaGame
         private void physicsTimer_Tick(object sender, EventArgs e)
         {
             UpdatePhysics();
+            TrySpawnEnemy();
             this.Refresh(); // Redraw graphics
         }
 
@@ -77,6 +84,33 @@ namespace NinjaGame
                 shot.Move();
                 if (!IsWithinBounds(shot))
                     projectiles.RemoveAt(index);
+            }
+        }
+
+        private void TrySpawnEnemy()
+        {
+            float x;
+            float y;
+            int attempts;
+
+            if (spawnDelay > 0)
+                spawnDelay--;
+            
+            if (spawnDelay == 0 && enemies.Count < MAX_ENEMY_COUNT)
+            {
+                for (attempts = 0; attempts < MAX_SPAWN_ATTEMPTS; attempts++)
+                {
+                    x = (float)((this.Width - ENEMY_SIZE) * random.NextDouble());
+                    y = (float)((this.Height - ENEMY_SIZE) * random.NextDouble());
+
+                    // Check that the enemy doesn't spawn too close to the player
+                    if (Math.Abs(player.X - x) >= MIN_COORD_DIFFERENCE && Math.Abs(player.Y - y) >= MIN_COORD_DIFFERENCE)
+                    {
+                        enemies.Add(new Enemy(x, y));
+                        spawnDelay = MAX_SPAWN_DELAY;
+                        break;
+                    }
+                }
             }
         }
 
